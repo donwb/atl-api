@@ -1,6 +1,7 @@
 package main
 
 import (
+	models "github.com/donwb/atl-api/models"
 	"github.com/goji/param"
 	"github.com/zenazn/goji/web"
 	"log"
@@ -29,6 +30,11 @@ func createShortURL(c web.C, w http.ResponseWriter, r *http.Request) {
 	logIf(err)
 
 	log.Printf("Create a short url for: %s  User: %s\n", url.Url, url.Username)
+
+	shortURL, err := models.AddURL(url.Username, url.Url)
+
+	w.Write([]byte(shortURL))
+
 }
 
 func createShortURLProto(c web.C, w http.ResponseWriter, r *http.Request) {
