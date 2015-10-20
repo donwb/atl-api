@@ -11,10 +11,16 @@ func main() {
 	flag.Set("bind", ":3000")
 
 	goji.Get("/", RootRoute)
-	goji.Get("/v1/getURLs/:user", getURLs)
+
+	// User routes
+	goji.Get("/v1/getUser/:user", findUser)
 	goji.Post("/v1/createUser", createUser)
+
+	// URL routes
+	goji.Get("/v1/getURLs/:user", getURLs)
 	goji.Post("/v1/createShortURL", createShortURL)
 
+	// Light it up!
 	goji.Serve()
 }
 
