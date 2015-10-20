@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package main;
+
+message UserProto {
+	string Username = 1;
+	string Name = 2;
+}
