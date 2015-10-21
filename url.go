@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	models "github.com/donwb/atl-api/models"
 	"github.com/goji/param"
 	"github.com/zenazn/goji/web"
@@ -44,4 +45,16 @@ func createShortURLProto(c web.C, w http.ResponseWriter, r *http.Request) {
 	logIf(err)
 
 	log.Printf("Create a short url for: %s  User: %s\n", url.Url, url.Username)
+}
+
+func resolveURL(c web.C, w http.ResponseWriter, r *http.Request) {
+	var shortURL = c.URLParams["shortURL"]
+
+	fullURL := models.Resolve(shortURL)
+
+	m := map[string]string{"fullURL": fullURL}
+	res, _ := json.Marshal(m)
+
+	w.Write(res)
+
 }

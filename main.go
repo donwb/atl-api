@@ -19,6 +19,7 @@ func main() {
 	// URL routes
 	goji.Get("/v1/getURLs/:user", getURLs)
 	goji.Post("/v1/createShortURL", createShortURL)
+	goji.Get("/v1/resolveURL/:shortURL", resolveURL)
 
 	// Light it up!
 	goji.Serve()

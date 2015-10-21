@@ -9,6 +9,8 @@ import (
 	"time"
 )
 
+const ROOT_URL = "http://s.co/"
+
 func AddURL(username string, url string) (string, error) {
 	// check user exists
 	ex := userExists(username)
@@ -20,7 +22,7 @@ func AddURL(username string, url string) (string, error) {
 	score := time.Now().Unix()
 
 	// shorten url
-	shortURL := "http://this.com/" + strconv.FormatInt(score, 10)
+	shortURL := ROOT_URL + strconv.FormatInt(score, 10)
 
 	// add to zlist by username
 	conn, _ := Connect()
@@ -48,4 +50,27 @@ func userExists(username string) bool {
 	exists, _ := redis.Bool(conn.Do("EXISTS", username))
 
 	return exists
+}
+
+func Resolve(shortURL string) string {
+	urlToResolve := ROOT_URL + shortURL
+
+	conn, _ := Connect()
+
+	conn.Do("SELECT", DB_URLRESOLVE)
+
+	// get the user and url
+	values, _ := redis.Values(conn.Do("HGETALL", urlToResolve))
+
+	user := string(values[1].([]byte))
+	fullURL := string(values[3].([]byte))
+
+	// increment the counter for this url
+	conn.Do("HINCRBY", urlToResolve, "clicks", 1)
+
+	// increment the overall counter for this user
+	conn.Do("SELECT", DB_USER)
+	conn.Do("HINCRBY", user, "clicks", 1)
+
+	return fullURL
 }
