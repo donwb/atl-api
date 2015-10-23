@@ -74,3 +74,21 @@ func Resolve(shortURL string) string {
 
 	return fullURL
 }
+
+func GetUrls(username string) []map[string]string {
+	conn, _ := Connect()
+
+	conn.Do("SELECT", DB_URLHISTORY)
+
+	values, _ := redis.Strings(conn.Do("ZREVRANGE", username, 0, -1))
+
+	urlsSlice := make([]map[string]string, len(values))
+
+	for i, val := range values {
+		log.Println("value", val)
+		m := map[string]string{"url": val}
+		urlsSlice[i] = m
+	}
+
+	return urlsSlice
+}
