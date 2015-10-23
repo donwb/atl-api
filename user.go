@@ -2,10 +2,11 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	models "github.com/donwb/atl-api/models"
 	"github.com/goji/param"
+	"github.com/golang/protobuf/proto"
 	"github.com/zenazn/goji/web"
-	"log"
 	"net/http"
 )
 
@@ -33,6 +34,7 @@ func createUser(c web.C, w http.ResponseWriter, r *http.Request) {
 }
 
 func findUser(c web.C, w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Set("Content-Type", "application/json")
 	username := c.URLParams["user"]
 
@@ -47,16 +49,25 @@ func findUser(c web.C, w http.ResponseWriter, r *http.Request) {
 	res, _ := json.Marshal(u)
 
 	w.Write(res)
+
 }
 
-func createUserProto(c web.C, w http.ResponseWriter, r *http.Request) {
+func findUserProto(c web.C, w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/x-protobuf")
 
-	var user User
+	username := c.URLParams["user"]
 
-	r.ParseForm()
-	err := param.Parse(r.Form, &user)
-	logIf(err)
+	userModel := models.FindByUsername(username)
 
-	log.Printf("Creating Proto user: %s - name: %s\n", user.Username, user.Name)
+	u := UserProto{
+		Username: username,
+		Name:     userModel.Name,
+		Clicks:   int64(userModel.Clicks),
+	}
 
+	fmt.Println(u)
+
+	protoRes, _ := proto.Marshal(&u)
+
+	w.Write(protoRes)
 }

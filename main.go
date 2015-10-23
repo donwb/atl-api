@@ -14,6 +14,7 @@ func main() {
 
 	// User routes
 	goji.Get("/v1/getUser/:user", findUser)
+	goji.Get("/v2/getUser/:user", findUserProto)
 	goji.Post("/v1/createUser", createUser)
 
 	// URL routes

@@ -5,4 +5,5 @@ package main;
 message UserProto {
 	string Username = 1;
 	string Name = 2;
+	int64 clicks = 3;
 }

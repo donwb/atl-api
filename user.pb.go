@@ -21,6 +21,7 @@ var _ = proto.Marshal
 type UserProto struct {
 	Username string `protobuf:"bytes,1,opt" json:"Username,omitempty"`
 	Name     string `protobuf:"bytes,2,opt" json:"Name,omitempty"`
+	Clicks   int64  `protobuf:"varint,3,opt,name=clicks" json:"clicks,omitempty"`
 }
 
 func (m *UserProto) Reset()         { *m = UserProto{} }
