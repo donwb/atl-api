@@ -7,5 +7,5 @@ Use the default make target `all` by typing `make all` in the source folder.  Th
 _**Disclaimer**_  
 There's not much error handling in this code.  This is purposeful to keep the code that's core to REDIS and Goji easier to read if you don't already know Golang.
 
-_** To run the Protobuf generator:**_  
+_**To run the Protobuf generator:**_  
 `protoc --go_out=. user.proto`
