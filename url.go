@@ -15,8 +15,9 @@ type URL struct {
 }
 
 func getURLs(c web.C, w http.ResponseWriter, r *http.Request) {
+	username := c.URLParams["user"]
 
-	urls := models.GetUrls("donwb")
+	urls := models.GetUrls(username)
 
 	res, _ := json.Marshal(urls)
 
