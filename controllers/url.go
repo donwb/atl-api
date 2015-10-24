@@ -1,4 +1,4 @@
-package main
+package controllers
 
 import (
 	"encoding/json"
@@ -14,7 +14,7 @@ type URL struct {
 	Url      string `param:"url"`
 }
 
-func getURLs(c web.C, w http.ResponseWriter, r *http.Request) {
+func GetURLs(c web.C, w http.ResponseWriter, r *http.Request) {
 	username := c.URLParams["user"]
 
 	urls := models.GetUrls(username)
@@ -24,21 +24,21 @@ func getURLs(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Write(res)
 }
 
-func createShortURL(c web.C, w http.ResponseWriter, r *http.Request) {
+func CreateShortURL(c web.C, w http.ResponseWriter, r *http.Request) {
 	var url URL
 	r.ParseForm()
-	param.Parse(r.Form, &url)
-	//logIf(err)
+	err := param.Parse(r.Form, &url)
+	logIf(err)
 
 	log.Printf("Create a short url for: %s  User: %s\n", url.Url, url.Username)
 
-	shortURL, _ := models.AddURL(url.Username, url.Url)
+	shortURL, err := models.AddURL(url.Username, url.Url)
 
 	w.Write([]byte(shortURL))
 
 }
 
-func resolveURL(c web.C, w http.ResponseWriter, r *http.Request) {
+func ResolveURL(c web.C, w http.ResponseWriter, r *http.Request) {
 	var shortURL = c.URLParams["shortURL"]
 
 	fullURL := models.Resolve(shortURL)

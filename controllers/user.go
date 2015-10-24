@@ -1,4 +1,4 @@
-package main
+package controllers
 
 import (
 	"encoding/json"
@@ -16,7 +16,7 @@ type User struct {
 	Clicks   int    `param:"clicks" json:"clicks"`
 }
 
-func createUser(c web.C, w http.ResponseWriter, r *http.Request) {
+func CreateUser(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	var user User
 
@@ -33,7 +33,7 @@ func createUser(c web.C, w http.ResponseWriter, r *http.Request) {
 
 }
 
-func findUser(c web.C, w http.ResponseWriter, r *http.Request) {
+func FindUser(c web.C, w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Set("Content-Type", "application/json")
 	username := c.URLParams["user"]
@@ -52,7 +52,7 @@ func findUser(c web.C, w http.ResponseWriter, r *http.Request) {
 
 }
 
-func findUserProto(c web.C, w http.ResponseWriter, r *http.Request) {
+func FindUserProto(c web.C, w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/x-protobuf")
 
 	username := c.URLParams["user"]

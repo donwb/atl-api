@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package main;
+package controllers;
 
 message URLProto {
 	string Username = 1;

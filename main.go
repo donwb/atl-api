@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	controllers "github.com/donwb/atl-api/controllers"
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
 	"net/http"
@@ -13,14 +14,14 @@ func main() {
 	goji.Get("/", RootRoute)
 
 	// User routes
-	goji.Get("/v1/getUser/:user", findUser)
-	goji.Get("/v2/getUser/:user", findUserProto)
-	goji.Post("/v1/createUser", createUser)
+	goji.Get("/v1/getUser/:user", controllers.FindUser)
+	goji.Get("/v2/getUser/:user", controllers.FindUserProto)
+	goji.Post("/v1/createUser", controllers.CreateUser)
 
 	// URL routes
-	goji.Get("/v1/getURLs/:user", getURLs)
-	goji.Post("/v1/createShortURL", createShortURL)
-	goji.Get("/v1/resolveURL/:shortURL", resolveURL)
+	goji.Get("/v1/getURLs/:user", controllers.GetURLs)
+	goji.Post("/v1/createShortURL", controllers.CreateShortURL)
+	goji.Get("/v1/resolveURL/:shortURL", controllers.ResolveURL)
 
 	// Light it up!
 	goji.Serve()
