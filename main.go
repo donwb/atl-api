@@ -6,10 +6,13 @@ import (
 	"github.com/zenazn/goji"
 	"github.com/zenazn/goji/web"
 	"net/http"
+	"os"
 )
 
 func main() {
-	flag.Set("bind", ":3000")
+	port :=  ":" + os.Getenv("PORT")
+	
+	flag.Set("bind", port)
 
 	goji.Get("/", RootRoute)
 
